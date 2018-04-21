@@ -1,9 +1,10 @@
 require 'telegram/bot'
 require 'json'
+require 'yaml'
 
-token = 'YOUR_TELEGRAM_BOT_API_TOKEN'
+config = YAML::load(open('config.yml')) 
 
-Telegram::Bot::Client.run(token) do |bot|
+Telegram::Bot::Client.run([config"token"]) do |bot|
 	bot.listen do |message|
 	case message.text
 		when '/start'
