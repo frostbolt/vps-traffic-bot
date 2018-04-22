@@ -23,8 +23,8 @@ def get_stats
 	vnstat = JSON.parse(`vnstat --json`)
 
 	total = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["total"]
-	this_month = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["months"].last
-	today = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["days"].last
+	this_month = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["months"][0]
+	today = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["days"][0]
 """__total__
 #{format_table total}
 
