@@ -1,4 +1,6 @@
 # vps-traffic-bot
+<img alt="screenshot" src="https://github.com/frostbolt/vps-traffic-bot/raw/master/imgs/screenshot.jpg" width=250>
+
 simple telegram-bot based on [vnStat](http://humdi.net/vnstat/) utility that shows how much traffic you spent this month
 ## Installation
 
