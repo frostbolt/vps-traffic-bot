@@ -2,25 +2,47 @@ require 'telegram/bot'
 require 'json'
 require 'yaml'
 
-config = YAML::load(open('config.yml')) 
+CONFIG = YAML::load(open('config.yml')) 
 
-Telegram::Bot::Client.run([config"token"]) do |bot|
+def convert_traffic_output(arg)
+	if ( arg / 1048576) >= 1 
+		"#{"%.2f" % (arg / 1048576.0)} GiB"
+	elsif ( arg / 1024) >= 1 
+		"#{"%.2f" % (arg / 1024.0)} MiB"
+	else
+		"#{"%.2f" % (arg / 1024.0)} KiB"
+	end
+end
+
+def format_table(stat)
+"""in: `#{convert_traffic_output stat["tx"]}` | out: `#{convert_traffic_output stat["rx"]}`
+total: `#{convert_traffic_output stat["tx"] + stat["rx"]}`"""
+end
+
+def get_stats
+	vnstat = JSON.parse(`vnstat --json`)
+
+	total = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["total"]
+	this_month = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["months"].last
+	today = vnstat["interfaces"][CONFIG["adapter"]]["traffic"]["days"].last
+"""__total__
+#{format_table total}
+
+__this month:__ #{this_month["date"]["year"]}-#{this_month["date"]["month"]}
+#{format_table this_month}
+
+__today:__ #{today["date"]["year"]}-#{today["date"]["month"]}-#{today["date"]["day"]}
+#{format_table today}"""	
+end
+
+Telegram::Bot::Client.run(CONFIG["token"]) do |bot|
 	bot.listen do |message|
 	case message.text
 		when '/start'
-			kb = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: ["проверить"])
-			bot.api.send_message(chat_id: message.chat.id, text: "бот запущен", reply_markup: kb)
-		when 'проверить'
-			# bot.api.send_message(chat_id: message.chat.id, text: `ifconfig`.scan(/(?<=(\())(\d*.\d \w{1,3})/)[1][1].to_s)
-			traffic_viewer = JSON.parse `sh ./traffic_viewer.sh --json`
-			text = """
-**Статистика использования трафика**
-
-__входящий__: `#{traffic_viewer["input"]}`
-__исходящий__: `#{traffic_viewer["output"]}`
-__всего__: `#{traffic_viewer["total"]}`
-			"""
-			bot.api.send_message(chat_id: message.chat.id, text: text)
+			kb = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: ["check"])
+			bot.api.send_message(chat_id: message.chat.id, text: "Hi human!", reply_markup: kb)
+		when 'check'
+			bot.api.send_message(chat_id: message.chat.id, text: get_stats, parse_mode: "Markdown")
 		end
 	end
 end
