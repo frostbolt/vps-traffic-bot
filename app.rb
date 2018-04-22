@@ -10,7 +10,7 @@ def convert_traffic_output(arg)
 	elsif ( arg / 1024) >= 1 
 		"#{"%.2f" % (arg / 1024.0)} MiB"
 	else
-		"#{"%.2f" % (arg / 1024.0)} KiB"
+		"#{"%.2f" % (arg)} KiB"
 	end
 end
 
