@@ -4,7 +4,7 @@
 simple telegram-bot based on [vnStat](http://humdi.net/vnstat/) utility that shows how much traffic you spent this month
 ## Installation
 
-### 1. Install requirenments
+### 1. Install requirements
 * Install ruby with bundler
   ```
   # mpapis public key used to verify installation package to ensure security.
@@ -60,7 +60,7 @@ simple telegram-bot based on [vnStat](http://humdi.net/vnstat/) utility that sho
   WantedBy=multi-user.target
   ```
 
-### 3. enjoy!
+### 3. Enjoy!
   run `systemctl start vpstrafficbot` and that's it.
 
 ## Thanks
