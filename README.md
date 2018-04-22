@@ -38,26 +38,26 @@ simple telegram-bot based on [vnStat](http://humdi.net/vnstat/) utility that sho
   run `nano /usr/lib/systemd/system/vpstrafficbot.service`, insert the following fragment
 
   ```
-  #[Unit]
-  #Description=telegram bot for checking network adapter TX packages
-  #After=syslog.target network.target remote-fs.target nss-lookup.target
+  [Unit]
+  Description=telegram bot for checking network adapter TX packages
+  After=syslog.target network.target remote-fs.target nss-lookup.target
 
-  #[Service]
-  #Type=simple
-  #User=trafficbot_app
-  #Group=trafficbot_app
+  [Service]
+  Type=simple
+  User=trafficbot_app
+  Group=trafficbot_app
 
-  #WorkingDirectory=/home/trafficbot_app/vps-traffic-bot
-  #PIDFile=/home/trafficbot_app/vps-traffic-bot/pi_tweet_bot.pid
+  WorkingDirectory=/home/trafficbot_app/vps-traffic-bot
+  PIDFile=/home/trafficbot_app/vps-traffic-bot/vps-traffic-bot.pid
 
-  #ExecStart=/bin/bash -lc 'bundle exec ruby app.rb'
-  #ExecStop=/bin/kill -s TERM $MAINPID ; /bin/sleep 1
-  #TimeoutSec=30
-  #RestartSec=15s
-  #Restart=always
+  ExecStart=/bin/bash -lc 'bundle exec ruby app.rb'
+  ExecStop=/bin/kill -s TERM $MAINPID ; /bin/sleep 1
+  TimeoutSec=30
+  RestartSec=15s
+  Restart=always
 
-  #[Install]
-  #WantedBy=multi-user.target
+  [Install]
+  WantedBy=multi-user.target
   ```
 
 ### 3. enjoy!
