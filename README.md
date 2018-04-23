@@ -60,7 +60,7 @@ simple telegram-bot based on [vnStat](http://humdi.net/vnstat/) utility that sho
   WantedBy=multi-user.target
   ```
 
-### 3. Enjoy!
+### 4. Enjoy!
   run `systemctl start vpstrafficbot` and that's it.
 
 ## Thanks
